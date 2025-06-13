@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mr. Golisoda - Manufacturing Franchise Opportunity</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f8f8; /* Light background for the whole page */
+        }
+        /* Custom styles based on Mr. Golisoda's new palette */
+        .bg-golisoda-base-blue {
+            background-color: #14abf8; /* Blue - base */
+        }
+        .text-golisoda-yellow {
+            color: #ffea0c; /* Yellow - intermediate */
+        }
+        .bg-golisoda-dark-blue {
+            background-color: #003684; /* Dark Blue - intermediate */
+        }
+        .btn-primary {
+            background-color: #003684; /* Dark Blue for buttons for strong contrast */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #002a6b; /* Slightly darker dark blue on hover */
+        }
+        .input-field {
+            border: 1px solid #D1D5DB;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.3s ease;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: #14abf8; /* Base blue for focus border */
+            box-shadow: 0 0 0 3px rgba(20, 171, 248, 0.2);
+        }
+        /* Styling for FAQ accordion-like appearance */
+        .faq-item {
+            background-color: #fff;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+        .faq-question {
+            padding: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #003684; /* Dark Blue */
+        }
+        .faq-answer {
+            padding: 0 1.25rem 1.25rem;
+            color: #4B5563; /* Gray-700 */
+            display: none; /* Hidden by default, will be toggled by JS if implemented */
+        }
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+        .faq-item.active .faq-question::after {
+            content: '-';
+        }
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            line-height: 1;
+            margin-left: 1rem;
+        }
+
+        /* Hero section without video */
+        .hero-section-bg {
+            background-color: #14abf8; /* Blue - base */
+            background-image: url('https://placehold.co/1920x600/14abf8/14abf8?text='); /* Subtle pattern or gradient if desired */
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            z-index: 1; /* Ensure content is above any potential background patterns */
+        }
+        .hero-content {
+            padding: 2rem;
+            text-align: center;
+            color: white;
+            z-index: 10;
+        }
+        @media (min-width: 768px) {
+            .hero-content {
+                text-align: left;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Carousel specific styles */
+        .carousel-container {
+            position: relative;
+            max-width: 1080px; /* Max width for 1080x1080 images */
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .carousel-slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .carousel-slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            max-height: 1080px; /* Ensure images don't exceed their intended height */
+            object-fit: contain; /* Ensure the whole image is visible */
+            border-radius: 0.5rem;
+        }
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 54, 132, 0.7); /* Dark Blue with transparency */
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-size: 1.5rem;
+            border-radius: 0.5rem;
+            z-index: 20;
+            transition: background-color 0.3s ease;
+        }
+        .carousel-button:hover {
+            background-color: rgba(0, 54, 132, 0.9);
+        }
+        .carousel-button.prev {
+            left: 1rem;
+        }
+        .carousel-button.next {
+            right: 1rem;
+        }
+
+        /* Testimonial video styling */
+        .testimonial-video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .testimonial-video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <!-- Header/Navigation Bar -->
+    <header class="bg-white shadow-sm py-4">
+        <nav class="container mx-auto flex justify-between items-center px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center">
+                <!-- Mr. Golisoda Logo -->
+                <img src="Mr.Golisoda Logo 3-3.5 inch png.png-e179b951-0bf6-4011-8c7f-aa25b87580e7" alt="Mr. Golisoda Logo" class="h-10 sm:h-12 mr-3">
+                <span class="text-2xl font-bold text-golisoda-base-blue hidden sm:block">MR.GOLISODA</span>
+            </div>
+            <ul class="hidden md:flex space-x-6">
+                <li><a href="#home" class="text-gray-600 hover:text-golisoda-base-blue transition duration-300">Home</a></li>
+                <li><a href="#about" class="text-gray-600 hover:text-golisoda-base-blue transition duration-300">About</a></li>
+                <li><a href="#features" class="text-gray-600 hover:text-golisoda-base-blue transition duration-300">Benefits</a></li>
+                <li><a href="#franchise-form" class="text-gray-600 hover:text-golisoda-base-blue transition duration-300">Apply</a></li>
+            </ul>
+            <button class="md:hidden text-gray-600 focus:outline-none">
+                <!-- Hamburger Icon -->
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </nav>
+    </header>
+
+    <!-- Hero Section (Updated: Solid Background) -->
+    <section id="home" class="hero-section-bg text-white py-16 md:py-24 rounded-b-xl shadow-lg relative overflow-hidden">
+        <div class="hero-content container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
+            <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+                <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4 rounded-lg">
+                    Become a <span class="block text-golisoda-yellow">Mr. Golisoda Manufacturing Franchisee!</span>
+                </h1>
+                <p class="text-lg md:text-xl mb-8 opacity-90">
+                    Join our 8-year legacy and expand with us Pan-India. Set up your factory, manufacture, supply, and earn a <strong class="text-golisoda-yellow">guaranteed profit of ₹1.75 Lakhs per month</strong> for up to 2.5 years to secure your Return on Investment!
+                </p>
+                <a href="#franchise-form" class="btn-primary inline-block rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Start Your Profitable Journey Today!
+                </a>
+            </div>
+            <div class="md:w-1/2 flex justify-center md:justify-end">
+                <!-- Placeholder for a design element or product image if desired, otherwise can be empty -->
+                <img src="https://placehold.co/400x500/003684/ffffff?text=MR.GOLISODA+BOTTLE" alt="MR.GOLISODA Bottle" class="w-64 md:w-80 lg:w-96 rounded-lg shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500 ease-in-out">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Mr. Golisoda Section -->
+    <section class="py-16 md:py-20 bg-white rounded-xl mx-4 my-8 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-golisoda-base-blue">About Mr. Golisoda</h2>
+            <p class="text-lg leading-relaxed max-w-3xl mx-auto mb-12">
+                Mr. Golisoda is an 8-year-old brand that has successfully brought back the nostalgic charm of traditional Indian goli sodas with a modern twist. Now, we are expanding our manufacturing franchise model Pan-India, offering a unique opportunity for entrepreneurs to set up their own factory, manufacture, and supply our beloved products within their district. We are committed to empowering our franchisees with a proven model and unparalleled support.
+            </p>
+
+            <!-- Bottle Images Carousel/Slideshow (Updated with uploaded images) -->
+            <h3 class="text-2xl md:text-3xl font-bold mb-8 text-golisoda-dark-blue">Our Refreshing Product Range</h3>
+            <div class="carousel-container mb-12">
+                <div class="carousel-slides" id="bottleCarousel">
+                    <div class="carousel-slide">
+                        <img src="ALL GLASS BOTTLE.jpg-b0f99efa-893d-4ba9-ab59-5ca5a7a53e84" alt="Mr. Golisoda All Bottles">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="BlueBerry.jpg-56092292-f642-4552-8ada-2c763c6a45fa" alt="Mr. Golisoda Blueberry">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="GreenApple.jpg-2218426c-aecb-43ad-ab38-d54a3a63a1c4" alt="Mr. Golisoda Green Apple">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Lemon.jpg-a2ed8914-dd20-4804-b93f-125dd0fc4ae5" alt="Mr. Golisoda Lemon">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Nannari.jpg-1a7e8ec4-139a-4980-8f16-663687a9b701" alt="Mr. Golisoda Nannari">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Orange.jpg-cbbcda62-1147-4b71-817a-e8745195541c" alt="Mr. Golisoda Orange">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="Panner.jpg-5f7668d4-c851-47eb-90a3-03ae3dce761a" alt="Mr. Golisoda Panner">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="PineApple.jpg-aa2b54e3-24ba-454d-adf9-e4241db3939e" alt="Mr. Golisoda Pineapple">
+                    </div>
+                </div>
+                <button class="carousel-button prev" onclick="moveSlide(-1)">&#10094;</button>
+                <button class="carousel-button next" onclick="moveSlide(1)">&#10095;</button>
+            </div>
+
+            <!-- Call to Action Button -->
+            <div class="mt-12">
+                <a href="#franchise-form" class="btn-primary inline-block rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Learn More & Apply Now!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- What Franchisees Get Section -->
+    <section id="features" class="py-16 md:py-20 bg-gray-100 rounded-xl mx-4 my-8 shadow-md">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-golisoda-base-blue">What You Get as a Mr. Golisoda Manufacturing Franchisee</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Benefit 1: Guaranteed Profit -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">📈</div>
+                    <h3 class="text-xl font-semibold mb-3">Guaranteed Monthly Profit</h3>
+                    <p class="text-gray-600">Earn a guaranteed profit of <strong class="text-golisoda-base-blue">₹1.75 Lakhs per month</strong> for up to 2.5 years, ensuring a quick and secure Return on Investment.</p>
+                </div>
+                <!-- Benefit 2: Complete Factory Setup -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">⚙️</div>
+                    <h3 class="text-xl font-semibold mb-3">All A-Z Machinery & Equipment</h3>
+                    <p class="text-gray-600">Receive all necessary machinery and equipment for a complete factory setup, ready for production.</p>
+                </div>
+                <!-- Benefit 3: Visi-Coolers & Supply Vehicle -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">🚚</div>
+                    <h3 class="text-xl font-semibold mb-3">Visi-Coolers & Supply Vehicle</h3>
+                    <p class="text-gray-600">We provide essential visi-coolers for retail points and a supply vehicle to streamline your distribution.</p>
+                </div>
+                <!-- Benefit 4: Software Support -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">💻</div>
+                    <h3 class="text-xl font-semibold mb-3">Comprehensive Software Support</h3>
+                    <p class="text-gray-600">Benefit from our advanced software solutions for efficient inventory management, sales tracking, and operations.</p>
+                </div>
+                <!-- Benefit 5: Launch Support & Market Launch Team -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">🚀</div>
+                    <h3 class="text-xl font-semibold mb-3">Dedicated Launch Team & Support</h3>
+                    <p class="text-gray-600">A specific launch team will be deployed to help you successfully launch and establish your market presence.</p>
+                </div>
+                <!-- Benefit 6: Manpower Training -->
+                <div class="bg-white p-8 rounded-xl shadow-lg flex flex-col items-center text-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="text-5xl text-golisoda-yellow mb-4">🎓</div>
+                    <h3 class="text-xl font-semibold mb-3">Expert Manpower Training</h3>
+                    <p class="text-gray-600">Receive thorough training for your staff to ensure smooth manufacturing, quality control, and efficient supply chain management.</p>
+                </div>
+            </div>
+            <!-- New Call to Action Button -->
+            <div class="mt-12 text-center">
+                <a href="#franchise-form" class="btn-primary inline-block rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Ready to Get Started? Inquire Now!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 md:py-20 bg-white rounded-xl mx-4 my-8 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-golisoda-base-blue">Your Path to Becoming a Mr. Golisoda Manufacturing Franchisee</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md flex flex-col items-center transform hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-16 h-16 bg-golisoda-base-blue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">1</div>
+                    <h3 class="text-xl font-semibold mb-2">Inquire & Connect</h3>
+                    <p class="text-gray-600">Fill out our form below. Our team will connect to discuss the opportunity and your district's potential.</p>
+                </div>
+                <!-- Step 2 -->
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md flex flex-col items-center transform hover:scale-105 transition-transform duration-300">
+                    <div class="w-16 h-16 bg-golisoda-base-blue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">2</div>
+                    <h3 class="text-xl font-semibold mb-2">Factory Setup & Training</h3>
+                    <p class="text-gray-600">With our support, set up your 1000 sq ft factory, receive all machinery, and get your team trained.</p>
+                </div>
+                <!-- Step 3 -->
+                <div class="p-6 rounded-xl border border-gray-200 shadow-md flex flex-col items-center transform hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-16 h-16 bg-golisoda-base-blue text-white rounded-full flex items-center justify-center text-3xl font-bold mb-4">3</div>
+                    <h3 class="text-xl font-semibold mb-2">Launch & Profit Guarantee</h3>
+                    <p class="text-gray-600">Our launch team will help you establish your market, and you'll start earning your guaranteed monthly profit!</p>
+                </div>
+            </div>
+            <!-- New Call to Action Button -->
+            <div class="mt-12 text-center">
+                <a href="#franchise-form" class="btn-primary inline-block rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Begin Your Franchise Application!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 md:py-20 bg-gray-100 rounded-xl mx-4 my-8 shadow-md">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-12 text-golisoda-base-blue">What Our Franchisees Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Testimonial Video 1 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
+                    <div class="testimonial-video-wrapper mb-4">
+                        <!-- IMPORTANT: Replace 'https://www.w3schools.com/html/mov_bbb.mp4' with your actual testimonial video URL -->
+                        <video controls playsinline>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <p class="font-semibold text-golisoda-dark-blue">- Rajesh Kumar, Franchisee, Chennai</p>
+                    <p class="text-sm italic text-gray-600 mt-2">"The support is incredible, and the guaranteed profit truly delivers peace of mind!"</p>
+                </div>
+                <!-- Testimonial Video 2 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
+                    <div class="testimonial-video-wrapper mb-4">
+                        <!-- IMPORTANT: Replace 'https://www.w3schools.com/html/mov_bbb.mp4' with your actual testimonial video URL -->
+                        <video controls playsinline>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <p class="font-semibold text-golisoda-dark-blue">- Priya Sharma, Franchisee, Bangalore</p>
+                    <p class="text-sm italic text-gray-600 mt-2">"The training and launch team made setting up my factory so easy."</p>
+                </div>
+                <!-- Testimonial Video 3 -->
+                <div class="bg-white p-6 rounded-xl shadow-lg flex flex-col items-center text-center">
+                    <div class="testimonial-video-wrapper mb-4">
+                        <!-- IMPORTANT: Replace 'https://www.w3schools.com/html/mov_bbb.mp4' with your actual testimonial video URL -->
+                        <video controls playsinline>
+                            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
+                    <p class="font-semibold text-golisoda-dark-blue">- Amit Singh, Franchisee, Mumbai</p>
+                    <p class="text-sm italic text-gray-600 mt-2">"A truly unique business model with fantastic returns. Highly recommend!"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="py-16 md:py-20 bg-white rounded-xl mx-4 my-8 shadow-md">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-golisoda-base-blue">Frequently Asked Questions</h2>
+            <div class="max-w-3xl mx-auto">
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What is the total investment required for a Mr. Golisoda manufacturing franchise?
+                    </div>
+                    <div class="faq-answer">
+                        The total investment required is ₹45 Lakhs + GST. This covers machinery, initial setup, and comprehensive support.
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Is the monthly profit truly guaranteed?
+                    </div>
+                    <div class="faq-answer">
+                        Yes, Mr. Golisoda guarantees a profit of ₹1.75 Lakhs per month for up to 2.5 years, ensuring you achieve your return on investment.
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What kind of area is needed for the factory setup?
+                    </div>
+                    <div class="faq-answer">
+                        You will need approximately 1000 sq ft of area to set up the manufacturing unit.
+                    </div>
+                </div>
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What support does Mr. Golisoda provide to franchisees?
+                    </div>
+                    <div class="faq-answer">
+                        We provide A-Z machinery, visi-coolers, a supply vehicle, comprehensive software support, manpower training, and a dedicated launch team to establish your market.
+                    </div>
+                </div>
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How long does it take to set up and start operations?
+                    </div>
+                    <div class="faq-answer">
+                        The setup and launch process is streamlined with our dedicated support team, aiming for a quick start to operations after all prerequisites are met.
+                    </div>
+                </div>
+            </div>
+            <!-- Optional: Add a call to action after FAQs -->
+            <div class="mt-12 text-center">
+                <a href="#franchise-form" class="btn-primary inline-block rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Have More Questions? Contact Us!
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Franchise Inquiry Form Section -->
+    <section id="franchise-form" class="py-16 md:py-20 bg-golisoda-base-blue text-white rounded-xl mx-4 my-8 shadow-lg">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-10">Ready to Secure Your Future with Mr. Golisoda?</h2>
+            <p class="text-lg text-center mb-8 max-w-2xl mx-auto opacity-90">
+                Take the first step towards owning a profitable Mr. Golisoda manufacturing franchise. Required: <strong class="text-golisoda-yellow">₹45 Lakhs + GST investment</strong>, <strong class="text-golisoda-yellow">1000 sq ft area</strong>, and <strong class="text-golisoda-yellow">one supply vehicle</strong>. Fill out the form below, and our team will contact you.
+            </p>
+            <form class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+                <div class="mb-6">
+                    <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Full Name</label>
+                    <input type="text" id="name" name="name" class="input-field text-gray-800" placeholder="Your Full Name" required>
+                </div>
+                <div class="mb-6">
+                    <label for="email" class="block text-gray-700 text-sm font-semibold mb-2">Email Address</label>
+                    <input type="email" id="email" name="email" class="input-field text-gray-800" placeholder="your.email@example.com" required>
+                </div>
+                <div class="mb-6">
+                    <label for="phone" class="block text-gray-700 text-sm font-semibold mb-2">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" class="input-field text-gray-800" placeholder="+91 XXXXXXXXXX" required>
+                </div>
+                <div class="mb-6">
+                    <label for="city" class="block text-gray-700 text-sm font-semibold mb-2">City / Preferred District</label>
+                    <input type="text" id="city" name="city" class="input-field text-gray-800" placeholder="e.g., Chennai, Bangalore" required>
+                </div>
+                <div class="mb-8">
+                    <label for="message" class="block text-gray-700 text-sm font-semibold mb-2">Tell Us About Your Interest (Optional)</label>
+                    <textarea id="message" name="message" rows="4" class="input-field text-gray-800" placeholder="Any specific questions or details you'd like to share?"></textarea>
+                </div>
+                <button type="submit" class="btn-primary w-full py-3 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                    Submit Inquiry
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-golisoda-dark-blue text-white py-8 rounded-t-xl shadow-inner">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2025 Mr. Golisoda. All rights reserved.</p>
+            <div class="mt-4 flex justify-center space-x-6">
+                <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Privacy Policy</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Terms of Service</a>
+                <a href="#" class="text-gray-300 hover:text-white transition-colors duration-300">Contact Us</a>
+            </div>
+            <div class="mt-4 text-gray-300">
+                Follow us on:
+                <a href="https://www.instagram.com/mr.golisoda/" target="_blank" class="ml-2 hover:text-white transition-colors duration-300">Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', event => {
+                const faqItem = item.closest('.faq-item');
+                faqItem.classList.toggle('active');
+            });
+        });
+
+        // JavaScript for Bottle Carousel
+        let currentSlide = 0;
+        const slides = document.getElementById('bottleCarousel');
+        const totalSlides = slides ? slides.children.length : 0;
+
+        function showSlide(index) {
+            if (slides) {
+                if (index >= totalSlides) {
+                    currentSlide = 0;
+                } else if (index < 0) {
+                    currentSlide = totalSlides - 1;
+                } else {
+                    currentSlide = index;
+                }
+                slides.style.transform = `translateX(-${currentSlide * 100}%)`;
+            }
+        }
+
+        function moveSlide(direction) {
+            showSlide(currentSlide + direction);
+        }
+
+        // Auto-advance carousel
+        let carouselInterval;
+        function startCarousel() {
+            if (slides) {
+                carouselInterval = setInterval(() => {
+                    moveSlide(1);
+                }, 5000); // Change slide every 5 seconds
+            }
+        }
+
+        function stopCarousel() {
+            clearInterval(carouselInterval);
+        }
+
+        // Start carousel on load
+        window.onload = function() {
+            showSlide(0); // Initialize carousel to the first slide
+            startCarousel();
+        };
+
+        // Pause carousel on hover (optional)
+        const carouselContainer = document.querySelector('.carousel-container');
+        if (carouselContainer) {
+            carouselContainer.addEventListener('mouseenter', stopCarousel);
+            carouselContainer.addEventListener('mouseleave', startCarousel);
+        }
+    </script>
+
+</body>
+</html>
