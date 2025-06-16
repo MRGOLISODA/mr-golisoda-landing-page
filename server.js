@@ -4,6 +4,10 @@ const nodemailer = require('nodemailer');
 const ExcelJS = require('exceljs');
 const path = require('path');
 const fs = require('fs');
+const { Octokit } = require('@octokit/rest');
+
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const githubRepo = process.env.GITHUB_REPO || '';
 
 const app = express();
 app.use(express.static(__dirname));
@@ -87,6 +91,20 @@ app.post('/api/lead', async (req, res) => {
       await transporter.sendMail(mailOptions);
     } else {
       console.log('SMTP credentials not configured. Skipping email sending.');
+    }
+
+    if (process.env.GITHUB_TOKEN && githubRepo) {
+      const [owner, repo] = githubRepo.split('/');
+      try {
+        await octokit.issues.create({
+          owner,
+          repo,
+          title: `New lead from ${name}`,
+          body: `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\nState: ${state}\nCity: ${city}\nSource: ${source}${otherSource ? ` (${otherSource})` : ''}\nMessage: ${message}`
+        });
+      } catch (ghErr) {
+        console.error('Failed to create GitHub issue', ghErr);
+      }
     }
 
     res.json({ success: true });
