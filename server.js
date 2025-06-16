@@ -6,6 +6,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
+app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -42,7 +43,11 @@ async function initWorkbook() {
   }
 }
 
-initWorkbook();
+async function startServer() {
+  await initWorkbook();
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => console.log(`Server started on port ${port}`));
+}
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.example.com',
@@ -80,7 +85,11 @@ app.post('/api/lead', async (req, res) => {
       ]
     };
 
-    await transporter.sendMail(mailOptions);
+    if (process.env.SMTP_USER && process.env.SMTP_PASS && process.env.SMTP_HOST) {
+      await transporter.sendMail(mailOptions);
+    } else {
+      console.log('SMTP credentials not configured. Skipping email sending.');
+    }
 
     res.json({ success: true });
   } catch (err) {
@@ -88,6 +97,4 @@ app.post('/api/lead', async (req, res) => {
     res.status(500).json({ success: false, error: 'Failed to process lead' });
   }
 });
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`Server started on port ${port}`));
+startServer();
