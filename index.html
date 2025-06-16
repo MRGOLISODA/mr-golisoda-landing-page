@@ -472,7 +472,7 @@
             <p class="text-lg text-center mb-8 max-w-2xl mx-auto opacity-90">
                 Take the first step towards owning a profitable Mr. Golisoda manufacturing franchise. Required: <strong class="text-golisoda-yellow">₹45 Lakhs + GST investment</strong>, <strong class="text-golisoda-yellow">1000 sq ft area</strong>, and <strong class="text-golisoda-yellow">one supply vehicle</strong>. Fill out the form below, and our team will contact you.
             </p>
-            <form class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
+            <form id="lead-form" class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow-2xl">
                 <div class="mb-6">
                     <label for="name" class="block text-gray-700 text-sm font-semibold mb-2">Full Name</label>
                     <input type="text" id="name" name="name" class="input-field text-gray-800" placeholder="Your Full Name" required>
@@ -572,6 +572,38 @@
         if (carouselContainer) {
             carouselContainer.addEventListener('mouseenter', stopCarousel);
             carouselContainer.addEventListener('mouseleave', startCarousel);
+        }
+
+        const leadForm = document.getElementById('lead-form');
+        if (leadForm) {
+            leadForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const formData = {
+                    name: leadForm.name.value,
+                    email: leadForm.email.value,
+                    phone: leadForm.phone.value,
+                    city: leadForm.city.value,
+                    message: leadForm.message.value
+                };
+                try {
+                    const response = await fetch('/api/lead', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (response.ok) {
+                        alert('Thank you! Your inquiry has been received.');
+                        leadForm.reset();
+                    } else {
+                        alert('There was an error submitting your inquiry. Please try again later.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    alert('There was an error submitting your inquiry. Please try again later.');
+                }
+            });
         }
     </script>
 
